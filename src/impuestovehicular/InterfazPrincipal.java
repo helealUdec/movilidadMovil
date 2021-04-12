@@ -5,12 +5,16 @@
  */
 package impuestovehicular;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,13 +24,21 @@ import java.util.logging.Logger;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
+    private ArrayList<Automovil> listaCarros;
+    private  ItemListener il;
+    Locale locale = new Locale("es", "ES");
+    NumberFormat objNF2 = NumberFormat.getInstance(locale);
     /**
      * Creates new form InterfazPrincipal
      */
     public InterfazPrincipal() throws FileNotFoundException, IOException {
         initComponents();
         colocarInformacion();
+        rellenarLinea();
+        rellenarAnio();
+        rellenarPrecio();
         setLocationRelativeTo(null);
+        jScrollPane1.setAutoscrolls(false);
     }
 
     /**
@@ -71,9 +83,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jtextAreaRecibo.setEditable(false);
         jtextAreaRecibo.setColumns(20);
-        jtextAreaRecibo.setFont(jLabel1.getFont());
+        jtextAreaRecibo.setFont(new java.awt.Font("Segoe UI Symbol", 1, 16)); // NOI18N
         jtextAreaRecibo.setRows(5);
+        jtextAreaRecibo.setAutoscrolls(false);
         jScrollPane1.setViewportView(jtextAreaRecibo);
+        jtextAreaRecibo.getAccessibleContext().setAccessibleParent(null);
 
         botonGenerarRecibo.setFont(jLabel1.getFont());
         botonGenerarRecibo.setText("Generar Recibo");
@@ -155,7 +169,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jtextDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(botonGenerarRecibo)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,7 +195,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
                                     .addComponent(jtextPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jcheckboxCambioCuenta))))
+                            .addComponent(jcheckboxCambioCuenta)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -214,9 +228,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     .addComponent(jtextDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(botonGenerarRecibo)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,7 +241,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -238,36 +254,49 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jcheckboxProntoPagoActionPerformed
 
     private void botonGenerarReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGenerarReciboActionPerformed
-       int precioInicial = Integer.parseInt(jtextPrecio.getText());
-       String texto = "********************\n"
-               + "\n"
-               + "Precio del Vehiculo: " + precioInicial + "\n";
-       if(jcheckboxProntoPago.isSelected()) {
-           double descuento = 0.10;
-           int precio = precioInicial;
-           int descontar = (int) (precio * descuento);
-           int precioFinal = precio - descontar;
-           precioInicial = precioFinal;
-           
-       }
-       if(jcheckboxServicioPublico.isSelected()) {
-           double descuento = 0.10;
-           int precio = precioInicial;
-           int descontar = (int) (precio * descuento);
-           int precioFinal = precio - descontar;
-           precioInicial = precioFinal;
-       }
-       if(jcheckboxCambioCuenta.isSelected()) {
-           double descuento = 0.20;
-           int precio = precioInicial;
-           int descontar = (int) (precio * descuento);
-           int precioFinal = precio - descontar;
-           precioInicial = precioFinal;
-       }
-       
-       jtextDescuento.setText(String.valueOf(precioInicial));
-       texto += "Precio con descuento: " + precioInicial;
-       jtextAreaRecibo.setText(texto);
+        String cadena = jtextPrecio.getText().substring(2);
+        String numero = "";
+        for(int i = 0; i < jtextPrecio.getText().length() -2; i++) {
+            if(!cadena.substring(i, i+1).equals("."))
+            numero += cadena.substring(i, i+1);
+        }
+        cadena = numero;
+        int precioInicial = Integer.parseInt(cadena);
+         String texto = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                + "~\n"
+                + "~  Precio del Vehiculo: $ " + objNF2.format(precioInicial) + "\n~\n";
+        if (jcheckboxProntoPago.isSelected()) {
+            double descuento = 0.10;
+            int precio = precioInicial;
+            int descontar = (int) (precio * descuento);
+            
+            texto += "~  Descuento Pronto Pago: $ " + objNF2.format(descontar ) + "\n";
+            int precioFinal = precio - descontar;
+            precioInicial = precioFinal;
+
+        }
+        if (jcheckboxServicioPublico.isSelected()) {
+            double descuento = 0.10;
+            int precio = precioInicial;
+            int descontar = (int) (precio * descuento);
+            texto += "~  Descuento Servicio Publico: $ " + objNF2.format(descontar ) + "\n";
+            int precioFinal = precio - descontar;
+            precioInicial = precioFinal;
+        }
+        if (jcheckboxCambioCuenta.isSelected()) {
+            double descuento = 0.20;
+            int precio = precioInicial;
+            int descontar = (int) (precio * descuento);
+            texto += "~  Descuento Cambio de Cuenta: $ " + objNF2.format(descontar ) + "\n";
+            int precioFinal = precio - descontar;
+            precioInicial = precioFinal;
+        }
+
+        jtextDescuento.setText("$ " + objNF2.format(precioInicial));
+        texto += "~\n~  Precio con descuento: $ " + objNF2.format(precioInicial)
+                + "~\n~\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+        
+        jtextAreaRecibo.setText(texto);
     }//GEN-LAST:event_botonGenerarReciboActionPerformed
 
     /**
@@ -340,7 +369,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String linea;
-        ArrayList<Automovil> listaCarros = new ArrayList<Automovil>();
+        listaCarros = new ArrayList<Automovil>();
         while ((linea = br.readLine()) != null) {
 
             String[] datos = linea.split(";");
@@ -352,16 +381,69 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             String precioTemp1 = precioTemp[0] + precioTemp[1] + precioTemp[2];
             precioTemp1 = precioTemp1.trim();
             int precio = Integer.parseInt(precioTemp1);
-            
-            listaCarros.add( new Automovil(datos[0], datos[1], anio, precio));
-           
+
+            listaCarros.add(new Automovil(datos[0], datos[1], anio, precio));
+
         }
-        
-        for(int i = 0; i < listaCarros.size(); i++) {
-            jcomboMarca.addItem(listaCarros.get(i).getMarca());
-            jcomboLinea.addItem(listaCarros.get(i).getLinea());
-            jcomboAnio.addItem(String.valueOf(listaCarros.get(i).getAnio()));
-            jtextPrecio.setText(String.valueOf(listaCarros.get(i).getPrecio()));
+        String cadena = "";
+        String aux = "";
+        for (int i = 0; i < listaCarros.size(); i++) {
+            cadena = listaCarros.get(i).getMarca().toString();
+            if (cadena == null ? aux != null : !cadena.equals(aux)) {
+                jcomboMarca.addItem(cadena);
+                aux = cadena;
+            }
+        }
+         il = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if (ie.getSource() == jcomboMarca) {
+                    rellenarAnio();
+                    rellenarLinea();
+                    rellenarPrecio();
+                }
+                if (ie.getSource() == jcomboLinea) {
+                    rellenarAnio();
+                    rellenarPrecio();
+                }
+
+            }
+        };
+        jcomboMarca.addItemListener(il);
+
+    }
+
+    private void rellenarLinea() {
+        jcomboLinea.removeAllItems();
+        for (int i = 0; i < listaCarros.size(); i++) {
+            String seleccionado = (String) jcomboMarca.getSelectedItem();
+            if (listaCarros.get(i).getMarca().equals(seleccionado)) {
+                jcomboLinea.addItem(listaCarros.get(i).getLinea());
+
+            }
+        }
+        jcomboLinea.addItemListener(il);
+    }
+
+    private void rellenarAnio() {
+        jcomboAnio.removeAllItems();
+        for (int i = 0; i < listaCarros.size(); i++) {
+            String seleccionado = (String) jcomboLinea.getSelectedItem();
+            if (listaCarros.get(i).getLinea().equals(seleccionado)) {
+                jcomboAnio.addItem(String.valueOf(listaCarros.get(i).getAnio()));
+            }
+        }
+    }
+
+    private void rellenarPrecio() {
+
+        for (int i = 0; i < listaCarros.size(); i++) {
+            String seleccionado = (String) jcomboLinea.getSelectedItem();
+                     
+            String precio = objNF2.format(listaCarros.get(i).getPrecio());
+            if (listaCarros.get(i).getLinea().equals(seleccionado)) {
+                jtextPrecio.setText("$ " + precio);
+            }
         }
     }
 }

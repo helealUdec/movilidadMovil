@@ -1,14 +1,11 @@
-Renault;Renault Duster;2009;$58.900.000  
-Renault;Renault Koleos;2008;$109.860.000 
-Renault;Renault Arkana;2019;$90.000.000
-Renault;Renault Megane;1996;56.490.000
-Mercedes Benz;AMG GT Coupé Black Series - 3 puertas;2021;$57.640.927
-Mercedes Benz;Clase A 180d Sedán 8G - 4 puertas;2021;$15.724.564
-Mercedes Benz;CLA Shooting Brake 250e 8G-DCT (híbrido);2020;$20.014.664
-Chevrolet;Spark;2021;$37.040.000
-Chevrolet;gtbeat;2021;$39.290.000
-Chevrolet;joy;2021;$41.290.000
-Chevrolet;onix sedan;2021;$50.990.000
-
-
-
+Renault;Renault Duster;2009;$58p900p000 
+Renault;Renault Koleos;2008;$109p860p000
+Renault;Renault Arkana;2019;$90p000p000
+Renault;Renault Megane;1996;$56p490p000
+Mercedes Benz;AMG GT Coupé Black Series - 3 puertas;2021;$57p640p927
+Mercedes Benz;Clase A 180d Sedán 8G - 4 puertas;2021;$15p724p564
+Mercedes Benz;CLA Shooting Brake 250e 8G-DCT (híbrido);2020;$20p014p664
+Chevrolet;Spark;2021;$37p040p000
+Chevrolet;gtbeat;2021;$39p290p000
+Chevrolet;joy;2021;$41p290p000
+Chevrolet;onix sedan;2021;$50p990p000
