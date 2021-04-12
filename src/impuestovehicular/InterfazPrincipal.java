@@ -365,7 +365,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void colocarInformacion() throws FileNotFoundException, IOException {
-        File archivo = new File("D:\\Documentos\\Clases\\Programacion\\Semana 6\\impuestoVehicular\\src\\modelos.txt");
+        File archivo = new File("src//modelos.txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String linea;
