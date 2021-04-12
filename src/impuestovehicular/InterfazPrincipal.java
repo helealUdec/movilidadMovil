@@ -5,6 +5,15 @@
  */
 package impuestovehicular;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author harry
@@ -14,8 +23,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form InterfazPrincipal
      */
-    public InterfazPrincipal() {
+    public InterfazPrincipal() throws FileNotFoundException, IOException {
         initComponents();
+        colocarInformacion();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -31,21 +42,21 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jtextAreaRecibo = new javax.swing.JTextArea();
+        botonGenerarRecibo = new javax.swing.JButton();
+        jcomboLinea = new javax.swing.JComboBox<>();
+        jcomboMarca = new javax.swing.JComboBox<>();
+        jcomboAnio = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jtextPrecio = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jtextDescuento = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        jcheckboxProntoPago = new javax.swing.JCheckBox();
+        jcheckboxServicioPublico = new javax.swing.JCheckBox();
+        jcheckboxCambioCuenta = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
@@ -58,22 +69,27 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(jLabel1.getForeground());
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(jLabel1.getFont());
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jtextAreaRecibo.setEditable(false);
+        jtextAreaRecibo.setColumns(20);
+        jtextAreaRecibo.setFont(jLabel1.getFont());
+        jtextAreaRecibo.setRows(5);
+        jScrollPane1.setViewportView(jtextAreaRecibo);
 
-        jButton1.setFont(jLabel1.getFont());
-        jButton1.setText("Generar Recibo");
+        botonGenerarRecibo.setFont(jLabel1.getFont());
+        botonGenerarRecibo.setText("Generar Recibo");
+        botonGenerarRecibo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGenerarReciboActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setFont(jLabel1.getFont());
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {  }));
+        jcomboLinea.setFont(jLabel1.getFont());
+        jcomboLinea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {  }));
 
-        jComboBox3.setFont(jLabel1.getFont());
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+        jcomboMarca.setFont(jLabel1.getFont());
+        jcomboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
-        jComboBox4.setFont(jLabel1.getFont());
+        jcomboAnio.setFont(jLabel1.getFont());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -87,39 +103,39 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jLabel3.setForeground(jLabel1.getForeground());
         jLabel3.setText("Año");
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(jLabel1.getFont());
+        jtextPrecio.setEditable(false);
+        jtextPrecio.setFont(jLabel1.getFont());
 
         jLabel4.setFont(jLabel1.getFont());
         jLabel4.setForeground(jLabel1.getForeground());
         jLabel4.setText("Descuento");
 
-        jTextField2.setEditable(false);
-        jTextField2.setFont(jLabel1.getFont());
+        jtextDescuento.setEditable(false);
+        jtextDescuento.setFont(jLabel1.getFont());
 
         jLabel5.setFont(jLabel1.getFont());
         jLabel5.setForeground(jLabel1.getForeground());
         jLabel5.setText("Tipo de Descuento:");
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setFont(jLabel1.getFont());
-        jCheckBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox1.setText("Pronto Pago");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jcheckboxProntoPago.setBackground(new java.awt.Color(255, 255, 255));
+        jcheckboxProntoPago.setFont(jLabel1.getFont());
+        jcheckboxProntoPago.setForeground(new java.awt.Color(0, 0, 0));
+        jcheckboxProntoPago.setText("Pronto Pago");
+        jcheckboxProntoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jcheckboxProntoPagoActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setFont(jLabel1.getFont());
-        jCheckBox2.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox2.setText("Servicio Publico");
+        jcheckboxServicioPublico.setBackground(new java.awt.Color(255, 255, 255));
+        jcheckboxServicioPublico.setFont(jLabel1.getFont());
+        jcheckboxServicioPublico.setForeground(new java.awt.Color(0, 0, 0));
+        jcheckboxServicioPublico.setText("Servicio Publico");
 
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jCheckBox3.setFont(jLabel1.getFont());
-        jCheckBox3.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox3.setText("Translado de cuenta");
+        jcheckboxCambioCuenta.setBackground(new java.awt.Color(255, 255, 255));
+        jcheckboxCambioCuenta.setFont(jLabel1.getFont());
+        jcheckboxCambioCuenta.setForeground(new java.awt.Color(0, 0, 0));
+        jcheckboxCambioCuenta.setText("Translado de cuenta");
 
         jLabel6.setFont(jLabel1.getFont());
         jLabel6.setForeground(jLabel1.getForeground());
@@ -138,40 +154,42 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jcomboMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcheckboxProntoPago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jcomboLinea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                                .addComponent(jCheckBox3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3))
-                                        .addGap(63, 63, 63))
+                                        .addComponent(jLabel3)
+                                        .addGap(131, 131, 131))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jcomboAnio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(21, 21, 21)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jTextField1)))))
+                                    .addComponent(jtextPrecio)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jcheckboxServicioPublico)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcheckboxCambioCuenta)))
+                                .addGap(0, 147, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(27, 27, 27)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton1)
+                                .addComponent(jtextDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(botonGenerarRecibo)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(37, 37, 37))
@@ -189,22 +207,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcomboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcomboLinea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcomboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtextPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(jcheckboxProntoPago)
+                    .addComponent(jcheckboxServicioPublico)
+                    .addComponent(jcheckboxCambioCuenta))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtextDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(botonGenerarRecibo)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -214,7 +232,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,9 +242,25 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void jcheckboxProntoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcheckboxProntoPagoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jcheckboxProntoPagoActionPerformed
+
+    private void botonGenerarReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGenerarReciboActionPerformed
+       
+       if(jcheckboxProntoPago.isSelected()) {
+           int descuento = 10;
+           int precio = Integer.parseInt(jtextPrecio.getText());
+       }
+       if(jcheckboxServicioPublico.isSelected()) {
+           int descuento = 10;
+           int precio = Integer.parseInt(jtextPrecio.getText());
+       }
+       if(jcheckboxCambioCuenta.isSelected()) {
+           int descuento = 20;
+           int precio = Integer.parseInt(jtextPrecio.getText());
+       }
+    }//GEN-LAST:event_botonGenerarReciboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,20 +292,20 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazPrincipal().setVisible(true);
+                try {
+                    new InterfazPrincipal().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(InterfazPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfazPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JButton botonGenerarRecibo;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -282,8 +316,43 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JCheckBox jcheckboxCambioCuenta;
+    private javax.swing.JCheckBox jcheckboxProntoPago;
+    private javax.swing.JCheckBox jcheckboxServicioPublico;
+    private javax.swing.JComboBox<String> jcomboAnio;
+    private javax.swing.JComboBox<String> jcomboLinea;
+    private javax.swing.JComboBox<String> jcomboMarca;
+    private javax.swing.JTextArea jtextAreaRecibo;
+    private javax.swing.JTextField jtextDescuento;
+    private javax.swing.JTextField jtextPrecio;
     // End of variables declaration//GEN-END:variables
+
+    private void colocarInformacion() throws FileNotFoundException, IOException {
+        File archivo = new File("D:\\Documentos\\Clases\\Programacion\\Semana 6\\impuestoVehicular\\src\\modelos.txt");
+        FileReader fr = new FileReader(archivo);
+        BufferedReader br = new BufferedReader(fr);
+        String linea;
+        ArrayList<Automovil> listaCarros = new ArrayList<Automovil>();
+        while ((linea = br.readLine()) != null) {
+
+            String[] datos = linea.split(";");
+            int anio = Integer.parseInt(datos[2]);
+            datos[3] = datos[3].substring(1);
+            linea = datos[3];
+            String[] precioTemp = linea.split("p");
+
+            String precioTemp1 = precioTemp[0] + precioTemp[1] + precioTemp[2];
+            precioTemp1 = precioTemp1.trim();
+            int precio = Integer.parseInt(precioTemp1);
+            
+            listaCarros.add( new Automovil(datos[0], datos[1], anio, precio));
+           
+        }
+        
+        for(int i = 0; i < listaCarros.size(); i++) {
+            jcomboMarca.addItem(listaCarros.get(i).getMarca());
+            jcomboLinea.addItem(listaCarros.get(i).getLinea());
+            jcomboAnio.addItem(String.valueOf(listaCarros.get(i).getAnio()));
+        }
+    }
 }
